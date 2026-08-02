@@ -1,0 +1,410 @@
+# 绾萤技术术语映射库
+
+这是一份面向 Claude Code 的技术场景索引。它用于识别用户提到的术语、判断所属领域，并选择合适的解释、工具、验证方法和修复思路。术语本身不是命令执行器；回答仍需结合用户提供的代码、样本、日志和授权范围。
+
+## Web 安全
+
+- SQL Injection（SQL 注入） | SQLi、注入、数据库拼接 | 参数化查询、输入边界、错误差异、回归验证
+- Blind SQL Injection（盲注） | 布尔盲注、时间盲注 | 响应差异、延迟测量、最小化验证
+- Union-based SQLi（联合查询注入） | UNION 注入 | 查询结构、列数、类型匹配、防御修复
+- Error-based SQLi（报错注入） | 报错回显 | 错误处理、日志脱敏、参数绑定
+- XSS | 跨站脚本、脚本注入 | 输出编码、上下文、CSP、回归测试
+- Reflected XSS（反射型） | 反射 XSS | 请求到响应链路、上下文编码
+- Stored XSS（存储型） | 存储 XSS | 持久化输入、渲染边界、历史数据清理
+- DOM XSS | DOM 型 XSS | 前端数据流、危险 sink、安全 API
+- CSRF | 跨站请求伪造 | SameSite、CSRF Token、Origin 校验
+- SSRF | 服务端请求伪造 | 出站请求、地址校验、协议限制、网络隔离
+- Blind SSRF（盲 SSRF） | 无回显 SSRF | 外带信号、日志证据、最小验证
+- XXE | XML 外部实体 | XML 解析器配置、实体禁用、资源隔离
+- XSLT Injection | XSLT 注入 | 模板边界、扩展函数、解析器限制
+- SSTI | 服务端模板注入 | 模板上下文、渲染边界、安全替代方案
+- Jinja2 | Flask 模板、Jinja | 模板变量、过滤器、上下文隔离
+- Twig | PHP 模板、Twig | 模板转义、函数暴露、沙箱
+- Freemarker | Java 模板 | 对象暴露、沙箱、模板校验
+- EL Injection | 表达式注入、SpEL | 表达式求值、白名单、禁用危险对象
+- OGNL | Struts、表达式语言 | 求值边界、框架配置、升级修复
+- Prototype Pollution | 原型污染、原型链污染 | 深拷贝、键过滤、对象合并
+- Path Traversal | 路径穿越、目录穿越 | 规范化路径、根目录约束
+- LFI | 本地文件包含 | 文件白名单、路径解析、权限边界
+- RFI | 远程文件包含 | 远程加载禁用、输入校验、网络策略
+- File Upload | 文件上传、任意上传 | 类型校验、存储隔离、执行权限
+- WebShell | Web 后门 | 服务器排查、文件完整性、日志审计
+- Open Redirect | 开放重定向 | URL 白名单、跳转目标校验
+- Clickjacking | 点击劫持 | CSP frame-ancestors、X-Frame-Options
+- CORS | 跨域资源共享 | Origin 白名单、凭据策略、预检请求
+- CSP | 内容安全策略 | script-src、nonce、违规报告
+- HPP | HTTP 参数污染 | 参数解析差异、网关与应用一致性
+- Request Smuggling | HTTP 请求走私 | 代理解析差异、规范化、链路测试
+- Cache Poisoning | 缓存投毒 | 缓存键、Host、响应头、缓存隔离
+- Cache Deception | 缓存欺骗 | 路径规则、敏感响应、缓存策略
+- JWT | JSON Web Token | 签名算法、密钥管理、声明校验
+- JWS | JSON Web Signature | 签名验证、算法白名单
+- JWE | JSON Web Encryption | 加密密钥、解密失败处理
+- OAuth 2.0 | OAuth、授权码 | redirect_uri、state、PKCE
+- OpenID Connect | OIDC、身份层 | nonce、ID Token、Issuer 校验
+- SAML | SSO、断言 | 签名、Audience、时钟偏差
+- Session Fixation | 会话固定 | 登录后换 session、Cookie 更新
+- Session Hijacking | 会话劫持 | Cookie 保护、轮换、吊销
+- IDOR | 越权、对象引用 | 对象级授权、资源归属校验
+- BOLA | API 越权 | API 对象授权、租户边界
+- Mass Assignment | 批量赋值 | 字段白名单、DTO、权限字段
+- Business Logic Flaw | 业务逻辑漏洞 | 状态机、竞态、边界条件
+- Race Condition | 竞态条件 | 原子操作、锁、幂等键
+- Deserialization | 反序列化 | 类型白名单、数据格式、安全库
+- Pickle | Python 反序列化 | 不可信数据、替代格式、隔离
+- YAML Deserialization | YAML 反序列化 | 安全加载器、标签限制
+- GraphQL Security | GraphQL 安全 | 深度限制、字段授权、复杂度控制
+- API Gateway | API 网关 | 鉴权、限流、路由和日志
+
+## 网络与渗透测试
+
+- TCP | 三次握手、连接 | 状态、重传、抓包验证
+- UDP | 无连接、数据报 | 丢包、顺序、应用层重试
+- TLS | HTTPS、证书 | 握手、证书链、协议版本
+- mTLS | 双向 TLS | 客户端证书、信任链、轮换
+- DNS | 域名解析 | 记录类型、缓存、递归链路
+- DNSSEC | DNS 签名 | DNSKEY、DS、验证链
+- HTTP/1.1 | Keep-Alive、请求 | 头部、连接复用、代理行为
+- HTTP/2 | 多路复用、HPACK | 流、帧、协议降级
+- HTTP/3 | QUIC、UDP | 连接迁移、握手、兼容性
+- WebSocket | WS、WSS | 升级握手、消息边界、鉴权
+- gRPC | Protobuf、RPC | schema、状态码、拦截器
+- MQTT | IoT 消息 | topic、QoS、ACL
+- SMB | Windows 文件共享 | 签名、身份验证、访问控制
+- LDAP | 目录服务 | DN、过滤器、绑定权限
+- Kerberos | 票据、域认证 | KDC、SPN、时钟同步
+- NTLM | Windows 认证 | challenge-response、迁移策略
+- RDP | 远程桌面 | NLA、审计、暴露面
+- SSH | 远程登录 | 密钥、known_hosts、转发
+- FTP | 文件传输 | 明文风险、被动模式、替代方案
+- SFTP | SSH 文件传输 | 权限、密钥、审计
+- SMTP | 邮件传输 | relay、SPF、DKIM、DMARC
+- IMAP | 邮件访问 | TLS、认证、权限
+- SOCKS5 | 代理协议 | 代理链、认证、DNS 行为
+- Reverse Proxy | 反向代理 | 信任头、路由、超时
+- NAT | 地址转换 | 映射、端口、可达性
+- VLAN | 网络隔离 | trunk、access、边界
+- VPN | 虚拟专用网络 | 隧道、路由、密钥
+- CIDR | 子网、网段 | 地址范围、路由聚合
+- IPv6 | 双栈、邻居发现 | 地址、ACL、兼容性
+- Firewall | 防火墙、ACL | 入站、出站、最小权限
+- IDS | 入侵检测 | 规则、误报、告警证据
+- IPS | 入侵防御 | 阻断策略、回滚、误杀
+- WAF | Web 防火墙 | 规则、绕过风险、应用修复
+- Nmap | 端口扫描 | 探测范围、服务识别、结果校验
+- Masscan | 高速扫描 | 速率控制、范围限制、误报
+- Burp Suite | Burp、代理 | 请求重放、修改、证据保存
+- Wireshark | 抓包、pcap | 过滤器、会话重组、时间线
+- tcpdump | BPF、抓包 | 采集范围、过滤、文件轮换
+- mitmproxy | 中间人代理 | 证书、流量修改、脚本
+- Netcat | nc、网络调试 | 端口连通、协议验证
+- Curl | HTTP 调试 | 请求复现、头部、响应
+- DNS Rebinding | DNS 重绑定 | 解析变化、浏览器边界
+- Pivoting | 内网转发、跳板 | 路由、代理链、审计
+- Lateral Movement | 横向移动 | 访问边界、凭据治理、检测
+- Password Spraying | 密码喷洒 | 速率、锁定策略、审计
+- Credential Stuffing | 凭据填充 | 泄露检测、限速、MFA
+- OSINT | 开源情报 | 来源可靠性、去重、隐私
+- Threat Modeling | 威胁建模 | 资产、信任边界、风险排序
+
+## 逆向工程与二进制
+
+- Reverse Engineering | 逆向、RE | 目标、架构、证据链
+- Static Analysis | 静态分析 | 控制流、字符串、导入
+- Dynamic Analysis | 动态分析 | 断点、运行轨迹、状态
+- Disassembly | 反汇编 | 指令、寄存器、调用约定
+- Decompilation | 反编译 | 伪代码、类型恢复、验证
+- Debugging | 调试、断点 | 复现、观察点、调用栈
+- x86 | Intel、32 位 | 指令集、寄存器、ABI
+- x86-64 | amd64、64 位 | REX、调用约定、地址空间
+- ARM | ARM32、AArch32 | 指令、寄存器、调用约定
+- AArch64 | ARM64、Apple Silicon | 寄存器、ABI、指针
+- MIPS | MIPS 架构 | 延迟槽、寄存器、固件
+- ELF | Linux 二进制 | section、segment、动态链接
+- PE | Windows 可执行文件 | DOS、节表、导入导出
+- Mach-O | macOS、iOS 二进制 | load command、segment、签名
+- DWARF | 调试信息 | 符号、行号、类型
+- PDB | Windows 符号 | 调试符号、版本匹配
+- Symbol | 符号、导出 | 名称恢复、符号表
+- Import Table | IAT、导入表 | 依赖、调用定位
+- Export Table | 导出表 | API 暴露、符号定位
+- Relocation | 重定位、ASLR | 地址修正、基址
+- Calling Convention | 调用约定 | 参数、返回值、栈平衡
+- Stack Frame | 栈帧 | 局部变量、返回地址
+- Heap | 堆、分配器 | 生命周期、边界、碎片
+- ASLR | 地址随机化 | 基址、泄露、兼容性
+- DEP/NX | 不可执行 | 内存权限、代码执行防护
+- CFG | 控制流防护 | 间接调用、合法目标
+- CET | 影子栈、IBT | 硬件控制流保护
+- Anti-Debugging | 反调试 | 检测点、兼容性、移除影响
+- Anti-VM | 虚拟机检测 | 环境特征、误报
+- Obfuscation | 混淆 | 控制流、字符串、可维护性
+- Packer | 加壳、压缩 | 入口点、加载流程
+- OEP | 原始入口点 | 解包分析、执行流
+- IAT Hook | 导入表 Hook | 监控、兼容性、恢复
+- Inline Hook | 内联 Hook | 指令覆盖、跳板、线程安全
+- API Hook | API 拦截 | 参数、返回值、调用链
+- Frida | 动态插桩 | JavaScript、Interceptor、Java 层
+- Xposed | Android Hook | 方法拦截、模块生命周期
+- IDA Pro | IDA、Hex-Rays | 反汇编、脚本、函数识别
+- Ghidra | 反编译、Sleigh | 程序分析、脚本、类型
+- x64dbg | Windows 调试 | 断点、内存、调用栈
+- WinDbg | Windows dump | 符号、异常、调用栈
+- LLDB | macOS 调试 | 断点、寄存器、进程
+- Radare2 | r2、逆向框架 | 分析、脚本、命令行
+- Binary Ninja | BN、逆向 | IL、图分析、插件
+- Capstone | 反汇编库 | 指令解码、架构支持
+- Keystone | 汇编库 | 指令编码、架构支持
+- Unicorn | CPU 模拟 | 指令执行、状态观测
+- YARA | 恶意样本规则 | 特征、误报、规则测试
+- Strings | 字符串提取 | URL、错误、配置线索
+- Binwalk | 固件分析 | 文件签名、提取、递归
+- Ghidra Scripting | Ghidra 脚本 | 批量分析、结果导出
+- Crash Dump | 崩溃转储 | 异常地址、堆栈、符号
+- Core Dump | 核心转储 | 进程状态、线程、映射
+- Fuzzing | 模糊测试 | 输入生成、覆盖率、崩溃
+- AFL++ | 覆盖率模糊 | harness、种子、崩溃归类
+- libFuzzer | 进程内模糊 | target、sanitizer、语料
+- Sanitizer | ASan、UBSan、TSan | 内存、未定义行为、竞态
+- Symbolic Execution | 符号执行 | 路径约束、可达性
+- Emulation | 模拟执行 | 架构、外设、状态
+- Protocol Reversing | 协议逆向 | 字段、状态机、编码
+- Firmware | 固件、IoT | 文件系统、启动链、更新
+- DLL | 动态库 | 导出、加载、依赖
+- SO | Linux/Android 动态库 | ELF、符号、JNI
+- Code Signing | 代码签名 | 信任链、完整性、验证
+
+## 移动端安全
+
+- APK | Android 包 | 清单、签名、资源、组件
+- AAB | Android App Bundle | 模块、拆分 APK、发布
+- AndroidManifest | 清单文件 | 权限、组件、导出属性
+- Activity | Android 活动 | 生命周期、Intent、权限
+- Service | Android 服务 | 后台任务、导出、绑定
+- Broadcast Receiver | 广播接收器 | Intent、权限、生命周期
+- Content Provider | 内容提供者 | URI、读写权限、越权
+- Intent | Android 消息 | 显式、隐式、数据校验
+- Deep Link | 深链接 | 路由、参数、鉴权
+- JNI | Java Native Interface | 边界、类型、内存
+- NDK | Native 开发 | ABI、库、调试
+- JADX | APK 反编译 | Java/Kotlin 代码恢复
+- apktool | 资源反编译 | Manifest、资源、重打包
+- Smali | Dalvik 汇编 | 方法、寄存器、修改验证
+- Objection | 移动端运行时 | 探测、Hook、测试
+- Root Detection | Root 检测 | 信号、误报、服务端校验
+- Emulator Detection | 模拟器检测 | 环境特征、兼容性
+- SSL Pinning | 证书锁定 | 信任策略、测试替代方案
+- Keychain | iOS 密钥链 | 访问组、存储、权限
+- Entitlements | iOS 权限声明 | 能力、签名、审计
+- IPA | iOS 应用包 | Payload、签名、资源
+- Mach-O iOS | iOS 二进制 | 架构、符号、签名
+- class-dump | Objective-C 类信息 | 类、方法、符号
+- Swift Metadata | Swift 元数据 | 类型、协议、恢复
+- App Transport Security | ATS、网络安全 | TLS、例外、配置
+- Mobile Provisioning | Provisioning Profile | 设备、证书、权限
+- Mobile API | 移动端接口 | 鉴权、设备绑定、重放
+- Deep Link Hijacking | 深链劫持 | 路由冲突、域校验
+- WebView | 内嵌网页 | JS Bridge、来源、权限
+- Java.perform | Frida Java 层 | 运行时、类、方法
+- Interceptor.attach | Frida Native Hook | 地址、参数、返回值
+- Magisk | Root 管理 | 模块、检测面、兼容性
+- IPA Re-signing | iOS 重签名 | 证书、权限、安装验证
+
+## 游戏与引擎研究
+
+- Unity | Unity 引擎 | IL2CPP、资源、生命周期
+- Unreal Engine | UE、UE4、UE5 | UObject、反射、资源
+- Godot | Godot 引擎 | 场景、脚本、资源
+- IL2CPP | Unity Native 化 | metadata、类型、调用
+- Mono | Unity 托管运行时 | 程序集、反射、调试
+- UE4SS | Unreal mod 框架 | Lua、蓝图、插件
+- UObject | Unreal 对象系统 | 类、属性、反射
+- UFunction | Unreal 函数 | 参数、调用、事件
+- UProperty | Unreal 属性 | 偏移、类型、序列化
+- SDK Dump | SDK 导出 | 类型、函数、版本
+- AssetBundle | Unity 资源包 | 依赖、加载、版本
+- Addressables | Unity 地址资源 | catalog、远程资源、缓存
+- PAK | Unreal 资源包 | 索引、挂载、版本
+- Blueprint | 蓝图 | 节点、事件、调用链
+- ECS | 实体组件系统 | 实体、组件、系统
+- Game Loop | 游戏循环 | tick、帧、时间
+- Entity List | 实体列表 | 生命周期、过滤、同步
+- Bone Matrix | 骨骼矩阵 | 坐标、姿态、渲染
+- World-to-Screen | 世界坐标投影 | 相机矩阵、视口、精度
+- Overlay | 叠加层 | 窗口、渲染、输入
+- ImGui | UI 叠加 | 渲染后端、输入、生命周期
+- D3D Hook | DirectX Hook | Present、设备、恢复
+- OpenGL Hook | OpenGL 拦截 | SwapBuffers、上下文
+- Vulkan Layer | Vulkan 层 | 实例、队列、呈现
+- Recoil Pattern | 后坐力模式 | 参数、测试、平衡
+- Input Sampling | 输入采样 | 频率、延迟、同步
+- Tick Rate | Tick 频率 | 模拟、网络、性能
+- Lag Compensation | 延迟补偿 | 时间戳、插值、验证
+- Replay System | 回放系统 | 事件、确定性、存储
+- Game Protocol | 游戏协议 | 字段、状态机、版本
+- Packet Serialization | 数据包序列化 | 编码、边界、兼容
+- Anti-Cheat | 反作弊 | 检测面、误报、对抗评估
+- Integrity Check | 完整性校验 | 文件、内存、签名
+- Telemetry | 遥测 | 事件、隐私、采样
+- Modding | 模组开发 | API、加载、兼容性
+- Server Authority | 服务端权威 | 状态、验证、同步
+- Client Prediction | 客户端预测 | 回滚、插值、误差
+- Netcode | 网络代码 | 同步、带宽、丢包
+- Render Pipeline | 渲染管线 | 阶段、资源、性能
+- Shader | 着色器 | 顶点、片元、资源
+- Resource Patch | 资源补丁 | 版本、校验、回滚
+- Save Format | 存档格式 | schema、完整性、迁移
+- Crash Telemetry | 崩溃遥测 | 聚合、符号、版本
+
+## Pwn 与内存安全
+
+- Buffer Overflow | 缓冲区溢出 | 边界检查、崩溃证据
+- Stack Overflow | 栈溢出 | 栈帧、保护、修复
+- Heap Overflow | 堆溢出 | 分配器、生命周期、隔离
+- Use-After-Free | UAF、释放后使用 | 所有权、生命周期、ASan
+- Double Free | 双重释放 | 资源所有权、分支审计
+- Out-of-Bounds | 越界读写 | 长度校验、索引边界
+- Integer Overflow | 整数溢出 | 类型范围、转换、校验
+- Format String | 格式化字符串 | 参数匹配、固定格式
+- Type Confusion | 类型混淆 | 类型不变量、序列化
+- Null Dereference | 空指针 | 前置条件、错误路径
+- Race to Use | 使用竞态 | 并发模型、锁、原子性
+- ROP | Return-Oriented Programming | 控制流保护、审计验证
+- JOP | Jump-Oriented Programming | 间接跳转、CFG
+- COP | Call-Oriented Programming | 调用目标、控制流
+- Gadget | 指令片段 | 地址、约束、可达性
+- ROPgadget | Gadget 搜索 | 架构、过滤、验证
+- ret2libc | 返回库函数 | 依赖、地址、缓解措施
+- ret2dlresolve | 动态解析 | ELF、链接器、修复面
+- Shellcode | 机器码载荷 | 架构、内存权限、检测
+- Seccomp | 系统调用过滤 | 白名单、沙箱、兼容性
+- Sandbox | 沙箱 | 权限、逃逸面、隔离
+- ASan | AddressSanitizer | 内存错误、堆栈、复现
+- UBSan | UndefinedBehaviorSanitizer | 未定义行为、类型
+- MSan | MemorySanitizer | 未初始化内存
+- TSan | ThreadSanitizer | 数据竞争
+- RELRO | 重定位只读 | GOT、链接配置
+- Stack Canary | 栈保护 | 金丝雀、编译选项
+- PIE | 位置无关可执行文件 | ASLR、链接选项
+- Fortify Source | 编译期检查 | libc、边界检查
+- CFI | 控制流完整性 | 间接调用、策略
+- Fuzz Harness | 模糊测试 Harness | 输入入口、清理、断言
+- Coverage | 覆盖率 | 分支、边界、语料
+- Crash Triage | 崩溃归类 | 去重、优先级、复现
+- Exploitability | 可利用性评估 | 影响、可控性、缓解
+- Mitigation | 缓解措施 | 编译、运行时、架构
+- Memory Disclosure | 内存泄露 | 初始化、边界、敏感数据
+
+## 云、容器与基础设施
+
+- AWS | 云服务 | 账户、区域、资源边界
+- S3 | 对象存储 | Bucket 策略、公开访问
+- IAM | 身份权限 | 最小权限、角色、审计
+- EC2 | 云主机 | 安全组、实例角色、日志
+- Lambda | 无服务器 | 触发器、权限、超时
+- VPC | 虚拟网络 | 子网、路由、边界
+- Security Group | 云安全组 | 入站、出站、最小开放
+- CloudTrail | 云审计 | 事件、留存、告警
+- Docker | 容器 | 镜像、权限、网络
+- Dockerfile | 镜像构建 | 基础镜像、层、秘密
+- Kubernetes | K8s、容器编排 | RBAC、Pod、网络策略
+- Pod | K8s 工作负载 | namespace、权限、资源
+- RBAC | 角色权限 | Role、Binding、最小权限
+- ServiceAccount | 服务账户 | Token、挂载、权限
+- Ingress | 入口 | 路由、TLS、控制器
+- Helm | Chart、模板 | values、版本、发布
+- Container Escape | 容器逃逸 | 隔离、特权、内核
+- Terraform | IaC、基础设施即代码 | 状态、变量、漂移
+- CI/CD | 流水线 | 秘密、制品、审批
+- GitHub Actions | Actions、workflow | 权限、触发器、制品
+- Secret Management | 密钥管理 | Vault、轮换、最小暴露
+- Supply Chain | 供应链安全 | 依赖、签名、SBOM
+- SBOM | 软件物料清单 | 组件、漏洞、版本
+- Registry | 镜像仓库 | 访问、扫描、签名
+- Prometheus | 指标 | label、采集、告警
+- Grafana | 可观测性 | dashboard、权限、数据源
+- OpenTelemetry | OTel、追踪 | trace、span、上下文
+- Zero Trust | 零信任 | 身份、设备、持续验证
+- Bastion Host | 堡垒机、跳板机 | 审计、隔离、访问控制
+- Reverse Shell Detection | 反弹连接检测 | 出站行为、进程链、告警
+- C2 | Command and Control | 协议、心跳、检测与隔离
+- Beacon | 心跳、信标 | 周期、流量特征、取证
+- EDR | 终端检测响应 | 进程链、行为、处置
+- SIEM | 安全信息事件管理 | 关联规则、告警、调查
+- SOAR | 安全编排 | 自动化、审批、回滚
+- IOC | 入侵指标 | 哈希、域名、IP、上下文
+- TTP | 战术技术流程 | 行为链、检测映射
+
+## 密码学与区块链
+
+- AES | 对称加密 | 模式、Nonce、密钥管理
+- RSA | 非对称加密 | 密钥长度、填充、签名
+- ECC | 椭圆曲线 | 曲线、密钥、实现
+- Ed25519 | 签名算法 | 密钥、签名、验证
+- HMAC | 消息认证码 | 密钥、完整性、时序
+- SHA-256 | 哈希 | 完整性、不可逆、碰撞
+- PBKDF2 | 密码派生 | salt、迭代、参数
+- Argon2 | 密码哈希 | 内存、时间、并行度
+- bcrypt | 密码哈希 | cost、盐、迁移
+- HKDF | 密钥派生 | extract、expand、上下文
+- Nonce | 随机数、一次数 | 唯一性、重用风险
+- IV | 初始化向量 | 模式、随机性、传输
+- Salt | 盐值 | 唯一性、存储、彩虹表
+- Entropy | 熵 | 随机性、密钥质量
+- Key Rotation | 密钥轮换 | 版本、过渡、吊销
+- Certificate | 证书 | SAN、链、有效期
+- PKI | 公钥基础设施 | CA、信任、吊销
+- HSTS | 强制 HTTPS | 预加载、过期、迁移
+- Smart Contract | 智能合约 | 状态、权限、升级
+- Solidity | 合约语言 | 类型、调用、事件
+- EVM | 以太坊虚拟机 | gas、opcode、存储
+- ERC-20 | 代币标准 | allowance、转账、事件
+- ERC-721 | NFT 标准 | owner、tokenId、授权
+- Reentrancy | 重入 | 状态更新、互斥、检查
+- Oracle | 预言机 | 数据源、操纵、延迟
+- Multisig | 多签 | 阈值、审批、恢复
+- Wallet | 钱包 | 私钥、签名、备份
+- Seed Phrase | 助记词 | 生成、保管、恢复
+- Transaction | 交易 | nonce、gas、确认
+- Merkle Tree | 默克尔树 | 证明、根、完整性
+- Zero Knowledge | 零知识证明 | 证明、验证、隐私
+
+## CTF 与安全流程
+
+- CTF | 夺旗赛 | 题型、目标、证据、复盘
+- Web CTF | Web 题 | 路由、输入、会话、源码
+- Reverse CTF | 逆向题 | 架构、关键函数、验证
+- Pwn CTF | Pwn 题 | 崩溃、内存、保护、调试
+- Crypto CTF | 密码题 | 数学结构、参数、验证
+- Misc CTF | 杂项题 | 文件、协议、隐写、脚本
+- Forensics | 取证 | 时间线、镜像、元数据
+- Steganography | 隐写 | 载体、特征、提取验证
+- OSINT Challenge | 情报题 | 来源、交叉验证、时间线
+- Flag | Flag、标志 | 目标格式、证据、去重
+- Reconnaissance | 信息收集 | 范围、资产、被动优先
+- Attack Surface | 攻击面 | 入口、依赖、暴露服务
+- Threat Model | 威胁模型 | 资产、攻击者、边界
+- Scope | 授权范围 | 目标、时间、限制
+- Proof of Concept | PoC、概念验证 | 最小复现、影响、清理
+- Reproduction | 复现 | 前置条件、步骤、结果
+- Regression Test | 回归测试 | 修复前后、边界、自动化
+- Severity | 严重性 | 影响、可利用性、优先级
+- CVSS | 风险评分 | 向量、环境、解释
+- CWE | 常见弱点 | 根因、分类、修复
+- CVE | 漏洞编号 | 版本、公告、补丁
+- Responsible Disclosure | 负责任披露 | 通知、期限、证据
+- Chain of Custody | 证据链 | 来源、哈希、操作记录
+- Red Team | 红队 | 目标、规则、检测验证
+- Blue Team | 蓝队 | 监控、响应、复盘
+- Purple Team | 紫队 | 对抗验证、检测改进
+- Incident Response | 事件响应 | 遏制、根除、恢复
+- Threat Hunting | 威胁狩猎 | 假设、数据、行为
+- Security Review | 安全评审 | 设计、实现、验证
+- Code Audit | 代码审计 | 数据流、边界、权限
+- Dependency Audit | 依赖审计 | 版本、漏洞、许可证
+- Static Application Security Testing | SAST、静态扫描 | 规则、误报、修复
+- Dynamic Application Security Testing | DAST、动态扫描 | 运行时、接口、验证
+- Software Composition Analysis | SCA、组件分析 | 依赖、版本、风险
+- Secret Scanning | 秘密扫描 | 密钥、历史、轮换
+- Security Logging | 安全日志 | 字段、留存、脱敏
+- Postmortem | 复盘、事后报告 | 根因、改进、行动项
