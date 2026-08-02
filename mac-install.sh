@@ -71,7 +71,7 @@ deploy() {
     local date=$(date +%Y%m%d-%H%M%S)
     local backup="$dst/backups/seagull-$date"
     local backed=0
-    for f in CLAUDE.md system-prompt.md config.toml settings.json; do
+    for f in CLAUDE.md system-prompt.md technical-glossary.md config.toml settings.json; do
         if [ -f "$dst/$f" ]; then
             mkdir -p "$backup" 2>/dev/null
             cp "$dst/$f" "$backup/$f" 2>/dev/null && backed=$((backed + 1))
@@ -97,8 +97,17 @@ deploy() {
         echo -e "${RED}      FAIL${NC}"
     fi
 
-    # 3. settings.json
-    echo -e "${YELLOW}  [3/4] settings.json${NC}"
+    # 3. technical-glossary.md
+    echo -e "${YELLOW}  [3/5] technical-glossary.md${NC}"
+    if cp "$BUNDLE_DIR/technical-glossary.md" "$dst/technical-glossary.md" 2>/dev/null; then
+        local size=$(wc -c < "$dst/technical-glossary.md" | tr -d ' ')
+        echo -e "${GREEN}      OK ($size bytes)${NC}"
+    else
+        echo -e "${RED}      FAIL${NC}"
+    fi
+
+    # 4. settings.json
+    echo -e "${YELLOW}  [4/5] settings.json${NC}"
     if [ ! -f "$dst/settings.json" ]; then
         cat > "$dst/settings.json" << 'EOF'
 {
@@ -118,8 +127,8 @@ EOF
         echo -e "${GRAY}      已存在，跳过${NC}"
     fi
 
-    # 4. config.toml
-    echo -e "${YELLOW}  [4/4] config.toml${NC}"
+    # 5. config.toml
+    echo -e "${YELLOW}  [5/5] config.toml${NC}"
     echo 'model_instructions_file = "system-prompt.md"' > "$dst/config.toml" 2>/dev/null
     echo -e "${GREEN}      OK${NC}"
 }
