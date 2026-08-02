@@ -79,6 +79,12 @@ if [ ! -f "$BUNDLE_DIR/system-prompt.md" ]; then
     exit 1
 fi
 
+if [ ! -f "$BUNDLE_DIR/technical-glossary.md" ]; then
+    echo -e "${RED}[!] technical-glossary.md not found in $BUNDLE_DIR${NC}"
+    read -p "Press Enter to exit..."
+    exit 1
+fi
+
 # ========== Deploy function ==========
 deploy_to_dir() {
     local dst="$1"
@@ -116,8 +122,19 @@ deploy_to_dir() {
         inc_fail
     fi
 
-    # 3. settings.json (only if not exists)
-    echo -e "${YELLOW}[3/4] settings.json...${NC}"
+    # 3. technical-glossary.md
+    echo -e "${YELLOW}[3/5] technical-glossary.md...${NC}"
+    if cp "$BUNDLE_DIR/technical-glossary.md" "$dst/technical-glossary.md" 2>/dev/null; then
+        local size=$(wc -c < "$dst/technical-glossary.md" | tr -d ' ')
+        echo -e "${GREEN}    OK ($size bytes)${NC}"
+        inc_ok
+    else
+        echo -e "${RED}    FAIL${NC}"
+        inc_fail
+    fi
+
+    # 4. settings.json (only if not exists)
+    echo -e "${YELLOW}[4/5] settings.json...${NC}"
     if [ ! -f "$dst/settings.json" ]; then
         cat > "$dst/settings.json" << 'SETTINGS_EOF'
 {
@@ -144,8 +161,8 @@ SETTINGS_EOF
         inc_ok
     fi
 
-    # 4. config.toml
-    echo -e "${YELLOW}[4/4] config.toml...${NC}"
+    # 5. config.toml
+    echo -e "${YELLOW}[5/5] config.toml...${NC}"
     echo 'model_instructions_file = "system-prompt.md"' > "$dst/config.toml" 2>/dev/null
     if [ -f "$dst/config.toml" ]; then
         echo -e "${GREEN}    OK${NC}"
@@ -167,7 +184,7 @@ backup_config() {
     local backup_path="$dst/backups/seagull-$date"
     local count=0
 
-    for f in CLAUDE.md system-prompt.md config.toml settings.json; do
+    for f in CLAUDE.md system-prompt.md technical-glossary.md config.toml settings.json; do
         if [ -f "$dst/$f" ]; then
             mkdir -p "$backup_path" 2>/dev/null
             if cp "$dst/$f" "$backup_path/$f" 2>/dev/null; then
