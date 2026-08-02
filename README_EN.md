@@ -1,5 +1,7 @@
 # Wanying · Claude Code
 
+[中文](README.md) | [English](README_EN.md)
+
 A Claude Code personality and technical-context package for macOS and Windows.
 
 ## What she can do
